@@ -40,15 +40,29 @@ char* str_arr_into_buff(int n, const char** arr) {
 	return ret;
 }
 
+/*
+ * Split an int into byte-size chunks and OR all of the chunks.
+ */
+char fold_to_char(int in) {
+	char ret = 0;
+	for (int i=0; i<sizeof(int); i++) {
+		char mask = (in >> (i * 8)) & 0xFF;
+		ret |= mask;
+	}
+	return ret;
+}
+
 int main(int argc, const char** argv) {
 	char* arg_buff = str_arr_into_buff(argc - 1, argv + 1);
 	char* exec_buff = malloc(strlen(CMD_TO_ALIAS) + strlen(arg_buff) + 2);
 	strcpy(exec_buff, CMD_TO_ALIAS);
 	strcat(exec_buff, " ");
 	strcat(exec_buff, arg_buff);
+	printf("%s\n", exec_buff);
 	int ret = system(exec_buff);
+	printf("%i\n", ret);
 	free(exec_buff);
 	free(arg_buff);
-	return ret;
+	return fold_to_char(ret);
 }
 
