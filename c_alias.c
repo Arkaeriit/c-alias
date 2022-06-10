@@ -32,6 +32,7 @@ size_t str_arr_tot_len(int n_elems, const char** arr) {
  */
 char* str_arr_into_buff(int n, const char** arr) {
 	char* ret = malloc(n + str_arr_tot_len(n, arr) + 1);	
+	ret[0] = 0;
 	for (int i=0; i<n; i++) {
 		strcat(ret, arr[i]);
 		strcat(ret, " ");
