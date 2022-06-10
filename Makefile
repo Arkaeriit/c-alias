@@ -12,6 +12,11 @@ c_alias: c_alias.c c_alias_mini.sh c_alias.sh
 	BIG_ALIAS=$$(cat c_alias_mini.sh | sed 's:process $$@.*:process:'); \
 	./c_alias.sh $@ "$$BIG_ALIAS"
 
+.PHONY: c_alias_test
+c_alias_test: c_alias c_alias_mini.sh
+	BIG_ALIAS=$$(cat c_alias_mini.sh | sed 's:process $$@.*:process:'); \
+	./c_alias c_alias "\"$$BIG_ALIAS\""
+
 clean:
 	rm -rf c_alias
 	rm -rf c_alias_mini.sh
