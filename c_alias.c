@@ -1,19 +1,8 @@
-/*----------------------------------------------\
-|This file is a template to create C-aliases.   |
-|Those are executables that behaves as if they  |
-|were alias to a command. This command should be|
-|given at compile time as the defined constant  |
-|CMD_TO_ALIAS. This defined constant should be a|
-|string literal.                                |
-\----------------------------------------------*/
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#ifndef CMD_TO_ALIAS
-#error "To compile this file, a string should be passed as the defined value `CMD_TO_ALIAS`. The resulting executable will be an alias to `CMD_TO_ALIAS`."
-#endif
 
 /*
  * Computes the sum of the length of the strings in an array.
@@ -46,7 +35,7 @@ char* str_arr_into_buff(int n, const char** arr) {
  */
 char fold_to_char(int in) {
 	char ret = 0;
-	for (int i=0; i<sizeof(int); i++) {
+	for (size_t i=0; i<sizeof(int); i++) {
 		char mask = (in >> (i * 8)) & 0xFF;
 		ret |= mask;
 	}
@@ -132,7 +121,7 @@ char** process_over_arr_and_free(char** arr, size_t size_arr, char* (func)(const
 /*
  * Display an array of strings.
  */
-void __attribute__((unused)) disp_arr(const char** arr, size_t size_arr) {
+void disp_arr(const char** arr, size_t size_arr) {
 	puts("[");
 	for (size_t i=0; i<size_arr; i++) {
 		printf("%s,\n", arr[i]);
@@ -141,15 +130,12 @@ void __attribute__((unused)) disp_arr(const char** arr, size_t size_arr) {
 }
 
 int main(int argc, const char** argv) {
-	char** processed_arr = process_over_arr(argv+1, argc-1, escape_in_str, '\\', '\\');
-	processed_arr = process_over_arr_and_free(processed_arr, argc-1, escape_in_str, '"', '\\');
-	processed_arr = process_over_arr_and_free(processed_arr, argc-1, surround_string, '"', '"');
-	char* arg_buff = str_arr_into_buff(argc-1, (const char**) processed_arr);
-	free_arr(processed_arr, argc-1);
-	char* exec_buff = malloc(strlen(CMD_TO_ALIAS) + strlen(arg_buff) + 2);
-	strcpy(exec_buff, CMD_TO_ALIAS);
-	strcat(exec_buff, " ");
-	strcat(exec_buff, arg_buff);
+	char** processed_arr = process_over_arr(argv+2, argc-2, escape_in_str, '\\', '\\');
+	processed_arr = process_over_arr_and_free(processed_arr, argc-2, escape_in_str, '"', '\\');
+	char* arg_buff = str_arr_into_buff(argc-2, (const char**) processed_arr);
+	free_arr(processed_arr, argc-2);
+	char* exec_buff = malloc(100000);
+	sprintf(exec_buff, "gcc -o %s c_alias_runtime.c '-DCMD_TO_ALIAS=\"%s\"'", argv[1], arg_buff);
 	int ret = system(exec_buff);
 	free(exec_buff);
 	free(arg_buff);
