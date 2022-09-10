@@ -31,7 +31,8 @@ int main(int argc, const char** argv) {
 	char* arg_buff = str_arr_into_buff(argc-2, (const char**) processed_arr);
 	free_arr(processed_arr, argc-2);
 	char* exec_buff = malloc(100000);
-	sprintf(exec_buff, "gcc -o %s '-DCMD_TO_ALIAS=\"%s\"'", argv[1], arg_buff);
+	strcpy(exec_buff, CC);
+	sprintf(exec_buff+strlen(CC), " -o %s '-DCMD_TO_ALIAS=\"%s\"'", argv[1], arg_buff);
 	strcat(exec_buff, get_instalation_flags());
 #ifdef DEBUG
 	strcat(exec_buff, " -DDEBUG ");
