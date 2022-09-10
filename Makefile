@@ -1,7 +1,13 @@
 INSTALL_PATH_SHARE ?= /usr/local/share/c_alias
 INSTALL_PATH_BIN ?= /usr/local/bin
-CFLAGS ?= -g -Wall -Werror -L./
+CFLAGS ?= -Wall -Werror -L./
 CFLAGS += "-DINSTALL_CFLAGS=\" -L$(INSTALL_PATH_SHARE)/ -I$(INSTALL_PATH_SHARE)/ $(INSTALL_PATH_SHARE)/c_alias_runtime.c -lc_alias\""
+
+ifdef DEBUG
+	CFLAGS += -DDEBUG -g
+else
+	CFLAGS += -O2
+endif
 
 all: c_alias
 

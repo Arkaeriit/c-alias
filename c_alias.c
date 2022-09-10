@@ -33,7 +33,10 @@ int main(int argc, const char** argv) {
 	char* exec_buff = malloc(100000);
 	sprintf(exec_buff, "gcc -o %s '-DCMD_TO_ALIAS=\"%s\"'", argv[1], arg_buff);
 	strcat(exec_buff, get_instalation_flags());
+#ifdef DEBUG
+	strcat(exec_buff, " -DDEBUG ");
 	printf("%s", exec_buff);
+#endif
 	int ret = system(exec_buff);
 	free(exec_buff);
 	free(arg_buff);

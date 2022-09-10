@@ -27,7 +27,9 @@ int main(int argc, const char** argv) {
 	strcpy(exec_buff, CMD_TO_ALIAS);
 	strcat(exec_buff, " ");
 	strcat(exec_buff, arg_buff);
+#ifdef DEBUG
 	printf("%s\n", exec_buff);
+#endif
 	int ret = system(exec_buff);
 	free(exec_buff);
 	free(arg_buff);
