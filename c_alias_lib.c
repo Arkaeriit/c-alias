@@ -58,17 +58,36 @@ int count_char_in_string(const char* str, char c) {
  * Escape the given char with the given escape char in the input string.
  * The output string is malloc-ed.
  */
-char* escape_in_str(const char* str, char c, char escape_code) {
-	char* ret = malloc(strlen(str) + count_char_in_string(str, c) + 1);
-	ret[strlen(str) + count_char_in_string(str, c)] = 0;
-	char* p = ret;
-	for (size_t i=0; i<strlen(str); i++) {
+char* escape_in_str(const char* str, char c, const char* escape_code) {
+	char* rep = malloc(2 + strlen(escape_code));
+	strcpy(rep, escape_code);
+	char buff[2] = {c, 0};
+	strcat(rep, buff);
+	char* ret = replace_char(str, c, rep);
+	free(rep);
+	return ret;
+}
+
+/*
+ * Replace a char from a string with a new string
+ */
+char* replace_char(const char* str, char c, const char* rep) {
+	size_t c_count = 0;
+	for (int i=0; i<strlen(str); i++) {
 		if (str[i] == c) {
-			*p = escape_code;
-			p++;
+			c_count++;
 		}
-		*p = str[i];
-		p++;
+	}
+	size_t ret_len = strlen(str) + (c_count * (strlen(rep) - 1));
+	char* ret = malloc(ret_len + 1);
+	ret[0] = 0;
+	for (int i=0; i<strlen(str); i++) {
+		if (str[i] == c) {
+			strcat(ret, rep);
+		} else {
+			char buff[2] = {str[i], 0};
+			strcat(ret, buff);
+		}
 	}
 	return ret;
 }
@@ -77,21 +96,21 @@ char* escape_in_str(const char* str, char c, char escape_code) {
  * Puts a char at the beginning and the end of a string.
  * The returned value is malloc'ed.
  */
-char* surround_string(const char* str, char first_edge, char last_edge) {
+char* surround_string(const char* str, char first_edge, const char* last_edge) {
 	char* ret = malloc(strlen(str) + 3);
 	ret[0] = first_edge;
 	ret[1] = 0;
 	strcat(ret, str);
-	char buff[2] = {last_edge, 0};
+	char buff[2] = {*last_edge, 0};
 	strcat(ret, buff);
 	return ret;
 }
 
 /*
- * Runs a function of the prototype char* xxx(const char*, char, char) over all
+ * Runs a function of the prototype char* xxx(const char*, char, char*) over all
  * the element of an array of string.
  */
-char** process_over_arr(const char** arr, size_t size_arr, char* (func)(const char*, char, char), char arg1, char arg2) {
+char** process_over_arr(const char** arr, size_t size_arr, char* (func)(const char*, char, const char*), char arg1, const char* arg2) {
 	char** ret = malloc(sizeof(char*) * size_arr);
 	for (size_t i=0; i<size_arr; i++) {
 		ret[i] = func(arr[i], arg1, arg2);
@@ -111,7 +130,7 @@ void free_arr(char** arr, size_t size_arr) {
 /*
  * Runs process_over_arr and free the input array
  */
-char** process_over_arr_and_free(char** arr, size_t size_arr, char* (func)(const char*, char, char), char arg1, char arg2) {
+char** process_over_arr_and_free(char** arr, size_t size_arr, char* (func)(const char*, char, const char*), char arg1, const char* arg2) {
 	char** ret = process_over_arr((const char**) arr, size_arr, func, arg1, arg2);
 	free_arr(arr, size_arr);
 	return ret;

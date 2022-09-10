@@ -7,11 +7,12 @@ size_t str_arr_tot_len(int n_elems, const char** arr);
 char* str_arr_into_buff(int n, const char** arr);
 char fold_to_char(int in);
 int count_char_in_string(const char* str, char c);
-char* escape_in_str(const char* str, char c, char escape_code);
-char* surround_string(const char* str, char first_edge, char last_edge);
-char** process_over_arr(const char** arr, size_t size_arr, char* (func)(const char*, char, char), char arg1, char arg2);
+char* escape_in_str(const char* str, char c, const char* escape_code);
+char* replace_char(const char* str, char c, const char* rep);
+char* surround_string(const char* str, char first_edge, const char* last_edge);
+char** process_over_arr(const char** arr, size_t size_arr, char* (func)(const char*, char, const char*), char arg1, const char* arg2);
 void free_arr(char** arr, size_t size_arr);
-char** process_over_arr_and_free(char** arr, size_t size_arr, char* (func)(const char*, char, char), char arg1, char arg2);
+char** process_over_arr_and_free(char** arr, size_t size_arr, char* (func)(const char*, char, const char*), char arg1, const char* arg2);
 void __attribute__((unused)) disp_arr(const char** arr, size_t size_arr);
 
 #endif
