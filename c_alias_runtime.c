@@ -18,15 +18,16 @@
 
 
 int main(int argc, const char** argv) {
-	char** processed_arr = process_over_arr(argv+1, argc-1, escape_in_str, '\\', '\\');
-	processed_arr = process_over_arr_and_free(processed_arr, argc-1, escape_in_str, '"', '\\');
-	processed_arr = process_over_arr_and_free(processed_arr, argc-1, surround_string, '"', '"');
+	char** processed_arr = process_over_arr(argv+1, argc-1, escape_in_str, '\\', "\\");
+	processed_arr = process_over_arr_and_free(processed_arr, argc-1, escape_in_str, '"', "\\");
+	processed_arr = process_over_arr_and_free(processed_arr, argc-1, surround_string, '"', "\"");
 	char* arg_buff = str_arr_into_buff(argc-1, (const char**) processed_arr);
 	free_arr(processed_arr, argc-1);
 	char* exec_buff = malloc(strlen(CMD_TO_ALIAS) + strlen(arg_buff) + 2);
 	strcpy(exec_buff, CMD_TO_ALIAS);
 	strcat(exec_buff, " ");
 	strcat(exec_buff, arg_buff);
+	printf("%s\n", exec_buff);
 	int ret = system(exec_buff);
 	free(exec_buff);
 	free(arg_buff);

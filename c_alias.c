@@ -19,21 +19,19 @@
 const char* get_instalation_flags(void) {
 	FILE* f;
 	CHECK_FILE("c_alias_runtime.c");
-	printf("lol\n");
 	CHECK_FILE("libc_alias.a");
-	printf("lol\n");
 	CHECK_FILE("c_alias_lib.h");
-	printf("lol\n");
 	return " c_alias_runtime.c -lc_alias -L./ ";
 }
 
 int main(int argc, const char** argv) {
-	char** processed_arr = process_over_arr(argv+2, argc-2, escape_in_str, '\\', '\\');
-	processed_arr = process_over_arr_and_free(processed_arr, argc-2, escape_in_str, '"', '\\');
+	char** processed_arr = process_over_arr(argv+2, argc-2, escape_in_str, '\\', "\\");
+	processed_arr = process_over_arr_and_free(processed_arr, argc-2, escape_in_str, '"', "\\");
+	processed_arr = process_over_arr_and_free(processed_arr, argc-2, replace_char, '\'', "'\"'\"'");
 	char* arg_buff = str_arr_into_buff(argc-2, (const char**) processed_arr);
 	free_arr(processed_arr, argc-2);
 	char* exec_buff = malloc(100000);
-	sprintf(exec_buff, "gcc -o %s -lc_alias '-DCMD_TO_ALIAS=\"%s\"'", argv[1], arg_buff);
+	sprintf(exec_buff, "gcc -o %s '-DCMD_TO_ALIAS=\"%s\"'", argv[1], arg_buff);
 	strcat(exec_buff, get_instalation_flags());
 	printf("%s", exec_buff);
 	int ret = system(exec_buff);
