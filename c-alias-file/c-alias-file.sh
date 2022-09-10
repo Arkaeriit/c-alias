@@ -33,7 +33,13 @@ remove_last_sc() {
 
 # Takes the content of the first argument and feed it to c_alias using the secind argument as name
 run_script() {
-    c_alias $2 "$(cat $1 | remove_comments | fold_lines | remove_empty_lines | remove_new_lines | remove_last_sc)"
+    if [ -n "$1" ] && [ -n "$2" ] && [ -z "$3" ]
+    then
+        c-alias "$2" "$(cat $1 | remove_comments | fold_lines | remove_empty_lines | remove_new_lines | remove_last_sc)"
+    else
+        echo "Usage c-alias-file <source script> <output c alias>"
+        exit 1
+    fi
 }
 
 run_script $@

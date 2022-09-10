@@ -25,6 +25,12 @@ const char* get_instalation_flags(void) {
 }
 
 int main(int argc, const char** argv) {
+	if (argc < 3) {
+		printf("Usage:\n");
+		printf("  %s <alias name> <alias content...>\n", argv[0]);
+		return 1;
+	}
+
 	char** processed_arr = process_over_arr(argv+2, argc-2, escape_in_str, '\\', "\\");
 	processed_arr = process_over_arr_and_free(processed_arr, argc-2, escape_in_str, '"', "\\");
 	processed_arr = process_over_arr_and_free(processed_arr, argc-2, replace_char, '\'', "'\"'\"'");
