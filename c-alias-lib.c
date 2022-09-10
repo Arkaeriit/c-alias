@@ -1,4 +1,4 @@
-#include "c_alias_lib.h"
+#include "c-alias-lib.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>

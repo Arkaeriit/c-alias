@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "c_alias_lib.h"
+#include "c-alias-lib.h"
 
 /*
  * Try to find libc_alias.a, c_alias_runtime.c, and c_alias_lib.h in the
@@ -18,10 +18,10 @@
     fclose(f)                   
 const char* get_instalation_flags(void) {
 	FILE* f;
-	CHECK_FILE("c_alias_runtime.c");
-	CHECK_FILE("libc_alias.a");
-	CHECK_FILE("c_alias_lib.h");
-	return " c_alias_runtime.c -lc_alias -L./ ";
+	CHECK_FILE("c-alias-runtime.c");
+	CHECK_FILE("libc-alias.a");
+	CHECK_FILE("c-alias-lib.h");
+	return " c-alias-runtime.c -lc-alias -L./ ";
 }
 
 int main(int argc, const char** argv) {

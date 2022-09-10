@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "c_alias_lib.h"
+#include "c-alias-lib.h"
 
 #ifndef CMD_TO_ALIAS
 #error "To compile this file, a string should be passed as the defined value `CMD_TO_ALIAS`. The resulting executable will be an alias to `CMD_TO_ALIAS`."
