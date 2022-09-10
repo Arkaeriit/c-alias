@@ -3,12 +3,12 @@
 C Alias is a tool to make binary executable that behave as a shell alias.
 
 ```shell
-; Make a basic _hello world_ alias
+## Make a basic _hello world_ alias
 $ c-alias hello-world echo Hello, World!
 $ ./hello-world 
 Hello, World!
 
-; Make an alias that uses additional arguments
+## Make an alias that uses additional arguments
 $ c-alias seq0 seq 0
 $ ./seq0 3
 0
