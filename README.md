@@ -29,6 +29,10 @@ A binary of the given name is then generated. When executing this binary, the ar
 
 When creating a C Alias, the arguments that you give are feed to a C compiler with the `system` with call the system shell. In that process, quotes might be removed and variables might get expanded. Think about it if some of your aliases do not behave as expected. If you want to see in detail what is going on under the hood, you can compile c-alias with the environment variable DEBUG set. This will print everything that is given to `system`.
 
+## C Alias File
+
+If you want to embed shell scripts into a C Alias, you can do so with the content of the directory `c-alias-file`.
+
 ## Installation
 
 To install c-alias, simply run `make && sudo make install`. You can choose the installation location with the environment variables `INSTALL_PATH_SHARE` and `INSTALL_PATH_BIN`.
